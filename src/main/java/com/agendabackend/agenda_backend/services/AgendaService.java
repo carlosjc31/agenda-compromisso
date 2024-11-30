@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agendabackend.agenda_backend.dtos.AgendaResponse;
+import com.agendabackend.agenda_backend.entities.Agenda;
 import com.agendabackend.agenda_backend.mappers.AgendaMapper;
 import com.agendabackend.agenda_backend.repositories.AgendaRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AgendaService {
@@ -17,6 +20,15 @@ public class AgendaService {
     private AgendaRepository repository;
 
     public List<AgendaResponse> getAllAgenda(){
-        return repository.findAll().stream().map(a -> AgendaMapper.toDTO(a)).collect(Collectors.toList());
+        return repository.findAll()
+                         .stream()
+                         .map(a -> AgendaMapper.toDTO(a))
+                         .collect(Collectors.toList());
+    }
+    public AgendaResponse getAgendaById(Long id){
+        Agenda agenda = repository.findById(id).orElseThrow(
+            () ->  new EntityNotFoundException("Agenda não encontrada") 
+        );
+        return AgendaMapper.toDTO(agenda);
     }
 }
