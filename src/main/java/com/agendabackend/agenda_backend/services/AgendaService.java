@@ -45,8 +45,16 @@ public class AgendaService {
         aux.setDescription(agenda.description());
         aux.setDate_hora(agenda.date_hora());
         aux.setLocal(agenda.local());
-        
+
         repository.save(aux);
     }
 
+    public void delete(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        }
+        else{
+            throw new EntityNotFoundException("Agenda nao encontrada");
+        }
+    }
 }
