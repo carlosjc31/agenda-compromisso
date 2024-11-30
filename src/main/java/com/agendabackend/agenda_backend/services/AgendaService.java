@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agendabackend.agenda_backend.dtos.AgendaRequest;
 import com.agendabackend.agenda_backend.dtos.AgendaResponse;
 import com.agendabackend.agenda_backend.entities.Agenda;
 import com.agendabackend.agenda_backend.mappers.AgendaMapper;
@@ -31,4 +32,10 @@ public class AgendaService {
         );
         return AgendaMapper.toDTO(agenda);
     }
+
+    public AgendaResponse save(AgendaRequest agenda) {
+    Agenda newAgenda = repository.save(AgendaMapper.toEntity(agenda));
+    return AgendaMapper.toDTO(newAgenda);
+}
+
 }
